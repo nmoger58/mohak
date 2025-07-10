@@ -1,0 +1,42 @@
+﻿@page
+@model IndexModel
+
+<div style="background-color: #121212; color: white; padding: 40px; border-radius: 10px; max-width: 900px; margin: auto;">
+    <h2 style="text-align: center;">FIND YOUR DREAM MODEL</h2>
+    <p style="text-align: center; color: #aaa;">Choose options from below and find your customization</p>
+
+    <form method="post" style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+        <select asp-for="SelectedBrand" class="form-control" onchange="this.form.submit()">
+            <option value="">Select Brand</option>
+            @foreach (var brand in Model.CarData.Keys)
+            {
+                <option value="@brand" selected="@(brand == Model.SelectedBrand)">
+                    @brand
+                </option>
+            }
+        </select>
+
+        <select asp-for="SelectedModel" class="form-control">
+    <option value="">Select Model</option>
+    @if (!string.IsNullOrEmpty(Model.SelectedBrand) && Model.CarData.ContainsKey(Model.SelectedBrand))
+    {
+        foreach (var carModel in Model.CarData[Model.SelectedBrand].Keys)
+        {
+            <option value="@carModel" selected="@(carModel == Model.SelectedModel)">
+                @carModel
+            </option>
+        }
+    }
+</select>
+
+        <button type="submit" class="btn btn-primary" style="background-color: #7d9fab; border: none; padding: 8px 20px;">SEARCH</button>
+    </form>
+
+    @if (!string.IsNullOrEmpty(Model.Description))
+    {
+        <div style="margin-top: 30px; background-color: #1e1e1e; padding: 20px; border-radius: 8px;">
+            <h4>Model Description:</h4>
+            <p>@Model.Description</p>
+        </div>
+    }
+</div>
